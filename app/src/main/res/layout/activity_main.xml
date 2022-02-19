@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Basketball Scoring Keeper"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/increaseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="+" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/leftScoreTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:layout_marginLeft="165dp"
+            android:text="0"
+            android:textSize="30dp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/teamSwitchCompat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/rightScoreTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="0"
+            android:textSize="30dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/decreaseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="-" />
+
+    <RadioGroup
+        android:id="@+id/pointsRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/onePointRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1 Point"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/twoPointRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2 Points"/>
+        <RadioButton
+            android:id="@+id/threePointRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 Points"/>
+    </RadioGroup>
+
+</LinearLayout>
