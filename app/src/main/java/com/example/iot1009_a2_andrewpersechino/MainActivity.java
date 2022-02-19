@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // When team switch is changed, set selected team to the opposite one
+    // or when radio buttons are selected, set according adjust amount
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch(compoundButton.getId()){
