@@ -6,16 +6,22 @@ package com.example.iot1009_a2_andrewpersechino;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.GnssAntennaInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 enum Team {LEFT, RIGHT};
@@ -30,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RadioButton twoPointRadioButton;
     RadioButton threePointRadioButton;
     SwitchCompat teamSwitchCompat;
-
     Team team;
+    SharedPreferences prefs;
     int rightTeamScore;
     int leftTeamScore;
     int adjustAmount;
@@ -40,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Setting view components based on ID
         rightScoreTextView    = findViewById(R.id.rightScoreTextView);
@@ -62,9 +71,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Setting default values
         team           = Team.LEFT;
-        rightTeamScore = 0;
-        leftTeamScore  = 0;
-        adjustAmount   = 1;
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        long id = item.getItemId();
+
+        // If about page was pressed
+        if(id == R.id.about){
+            // Create toast
+            Toast.makeText(this, "Created by: Andrew Persechino, A00228632, IOT1009", Toast.LENGTH_LONG)
+                    .show();
+            return true;
+        }
+        // If about page was pressed
+        if(id == R.id.settings){
+            // Start settings activity
+            Intent settings = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(settings);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // When either increase/decrease buttons are clicked
@@ -115,5 +146,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 rightScoreTextView.setText(Integer.toString(rightTeamScore));
                 break;
         }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        // Loading values
+        leftScoreTextView.setText(prefs.getString("leftTeamScore", "0"));
+        rightScoreTextView.setText(prefs.getString("rightTeamScore", "0"));
+        adjustAmount = prefs.getInt("adjustAmount", 1);
+        if(adjustAmount == 1){
+            pointsRadioGroup.check(R.id.onePointRadioButton);
+        }
+        else if(adjustAmount == 2){
+            pointsRadioGroup.check(R.id.twoPointRadioButton);
+        }
+        else if(adjustAmount == 3){
+            pointsRadioGroup.check(R.id.threePointRadioButton);
+        }
+    }
+
+    @Override
+    protected void onStop(){
+        SharedPreferences.Editor editor = prefs.edit();
+        boolean saveValues = prefs.getBoolean("save_values_pref", false);
+
+        // Saving values
+        if(saveValues){
+            editor.putString("leftTeamScore", leftScoreTextView.getText().toString());
+            editor.putString("rightTeamScore", rightScoreTextView.getText().toString());
+            editor.putInt("adjustAmount", adjustAmount);
+        }
+        else{
+            editor.clear();
+            editor.putBoolean("save_values_pref", false);
+        }
+        super.onStop();
     }
 }

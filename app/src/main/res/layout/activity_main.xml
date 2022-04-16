@@ -14,7 +14,7 @@
         android:textSize="30dp"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-black"
-        android:text="Basketball Scoring Keeper"
+        android:text="Basketball Score    Keeper"
         android:textAlignment="center"/>
 
     <Button
